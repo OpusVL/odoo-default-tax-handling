@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_template_tax_view">
+            <field name="name">product.template.tax</field>
+            <field name="model">product.template.tax</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Default Product Taxes">
+                    <group>
+                        <field name="name"/>
+                        <field name="active_on_product"/>
+                        <field name="active_on_order_line"/>
+                        <field name="default_product_taxes" widget="many2many_tags"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_template_tax_tree_view">
+            <field name="name">product.template.tax</field>
+            <field name="model">product.template.tax</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Default Product Taxes">
+                    <field name="name"/>
+                    <field name="active_on_product"/>
+                    <field name="active_on_order_line"/>
+                    <field name="default_product_taxes" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_product_template_tax_tree_view">
+            <field name="name">Default Product Taxes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template.tax</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="product_template_tax_tree_view"/>
+        </record>
+
+		<menuitem id="product_template_tax_menu_purchase" parent="base.menu_product" action="action_product_template_tax_tree_view"/>
+        <menuitem id="product_template_tax_menu_sale" parent="purchase.menu_procurement_management_product" action="action_product_template_tax_tree_view"/>
+    </data>
+</openerp>

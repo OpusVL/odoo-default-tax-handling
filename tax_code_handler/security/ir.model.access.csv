@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template_tax_salesman,access_product_template_tax_salesman,model_product_template_tax,base.group_sale_salesman,1,0,0,0
+access_product_template_tax_all_leads,access_product_template_tax_all_leads,model_product_template_tax,base.group_sale_salesman_all_leads,1,0,0,0
+access_product_template_tax_manager,access_product_template_tax_manager,model_product_template_tax,base.group_sale_manager,1,1,1,1
