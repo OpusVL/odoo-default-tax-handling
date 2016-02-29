@@ -20,8 +20,9 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import osv
 from openerp import exceptions
+
 
 class SaleOrderLine(osv.osv):
     _inherit = "sale.order.line"

@@ -28,7 +28,7 @@
     'website': 'http://opusvl.com/',
     'summary': '',
     'category': '',
-    'description': 'Lets the user select default taxes to be applied on product creation',
+    'description': 'Lets the user select default taxes to be applied on product creation, or on blank sale order line creation',
     'images': [
     ],
     'depends': [

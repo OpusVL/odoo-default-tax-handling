@@ -23,6 +23,7 @@
 from . import (
     product_template_tax,
     sale_order_line,
+    product_template,
 )
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

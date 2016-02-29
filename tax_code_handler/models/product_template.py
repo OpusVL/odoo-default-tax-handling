@@ -20,6 +20,48 @@
 #
 ##############################################################################
 
-# TODO: Add in tax hook for creation of products
+from openerp import models, SUPERUSER_ID
+from openerp import exceptions
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    # Have to override method instead of appending vals to super
+    def create(self, cr, uid, vals, context=None):
+        # Start Extension
+        stax = []
+        ptax = []
+        pt_tax_obj = self.pool.get('product.template.tax')
+        dpt = pt_tax_obj.search(cr, SUPERUSER_ID, [('active_on_product', '=', True)], context=context)
+        dpt_rec = pt_tax_obj.browse(cr, SUPERUSER_ID, dpt, context=context)
+        if len(dpt) > 1:
+            raise exceptions.Warning('More than one default product tax set up to be active on product creation')
+        elif len(dpt) < 1:
+            pass
+        elif len(dpt) == 1:
+            for i in dpt_rec.default_product_taxes:
+                if i.type_tax_use == 'sale':
+                    stax.append(i.id)
+                if i.type_tax_use == 'purchase':
+                    ptax.append(i.id)
+        if ptax:
+            vals['supplier_taxes_id'] = [(6, False, ptax)]
+        if stax:
+            vals['taxes_id'] = [(6, False, stax)]
+        # End Extension
+
+        product_template_id = super(ProductTemplate, self).create(cr, uid, vals, context=context)
+        if not context or "create_product_product" not in context:
+            self.create_variant_ids(cr, uid, [product_template_id], context=context)
+        self._set_standard_price(cr, uid, product_template_id, vals.get('standard_price', 0.0), context=context)
+        related_vals = {}
+        if vals.get('ean13'):
+            related_vals['ean13'] = vals['ean13']
+        if vals.get('default_code'):
+            related_vals['default_code'] = vals['default_code']
+        if related_vals:
+            self.write(cr, uid, product_template_id, related_vals, context=context)
+        return product_template_id
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
